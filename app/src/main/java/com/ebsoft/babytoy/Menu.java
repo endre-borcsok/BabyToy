@@ -9,7 +9,10 @@ import android.widget.TextView;
 
 public class Menu extends Scene {
     public static final int SCENE_ID = 0x02;
-    TextView mStartButton;
+
+    private TextView mMenuTextPlay = null;
+    private TextView mMenuTextMoreBoards = null;
+    private TextView mMenuTextOptions = null;
 
     public Menu(MainActivity parentActivity) {
         super(parentActivity);
@@ -23,13 +26,21 @@ public class Menu extends Scene {
     @Override
     public void startScene() {
         mParentActivity.setContentView(R.layout.layout_menu);
-        mStartButton = (TextView) findViewById(R.id.start);
-        mStartButton.setOnClickListener(mStart);
+        mMenuTextPlay = (TextView) findViewById(R.id.textPlay);
+        mMenuTextMoreBoards = (TextView) findViewById(R.id.textMoreBoards);
+        mMenuTextOptions = (TextView) findViewById(R.id.textOptions);
+
+        mMenuTextPlay.setTypeface(getTypeface());
+        mMenuTextMoreBoards.setTypeface(getTypeface());
+        mMenuTextOptions.setTypeface(getTypeface());
+
+        mMenuTextPlay.setOnClickListener(mPlay);
     }
 
-    private View.OnClickListener mStart = new View.OnClickListener() {
+    private View.OnClickListener mPlay = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            getApplicationPreferences().edit().putBoolean(MainActivity.PREFERENCE_PARENTAL_MODE, true).commit();
             loadScene(new Boards(mParentActivity));
         }
     };

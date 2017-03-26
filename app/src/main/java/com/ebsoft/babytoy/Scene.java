@@ -1,8 +1,8 @@
 package com.ebsoft.babytoy;
 
+import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.view.View;
-
-import java.io.Serializable;
 
 /**
  * Created by Endre on 25/03/2017.
@@ -27,6 +27,14 @@ public class Scene implements Runnable {
     public void startScene(){};
 
     public int getID() {return 0;};
+
+    public Typeface getTypeface() {
+        return mParentActivity.getTypeface();
+    }
+
+    public SharedPreferences getApplicationPreferences()  {
+        return mParentActivity.getApplicationPreferences();
+    }
 
     @Override
     public void run() {}

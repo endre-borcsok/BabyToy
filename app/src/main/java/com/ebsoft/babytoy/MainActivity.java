@@ -1,11 +1,10 @@
 package com.ebsoft.babytoy;
 
 import android.app.Activity;
-import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
@@ -19,13 +18,21 @@ import java.io.IOException;
 
 public class MainActivity extends Activity {
 
-    private final String TAG = MainActivity.class.getSimpleName();
+    public static final String TAG = MainActivity.class.getSimpleName();
+    public static final String PREFERENCE_PARENTAL_MODE = "ParentalMode";
+
     private String mSavedLastScenePath = null;
+    private Typeface mTypeFace = null;
+    private SharedPreferences mSharedPreferences = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mSavedLastScenePath = getFilesDir().getAbsolutePath() + "/lastScene.obj";
+        mTypeFace = Typeface.createFromAsset(getAssets(),"fonts/Chewy.ttf");
+        mSharedPreferences = getSharedPreferences(TAG, MODE_PRIVATE);
+
         //Return to the previous scene.
         int savedSceneID = getLastScene();
         if (savedSceneID == 0) {
@@ -80,18 +87,30 @@ public class MainActivity extends Activity {
     private int getLastScene() {
         FileInputStream fis = null;
         int savedSceneID = 0;
-        try {
-            Log.d(TAG, "Loading scene from: " + mSavedLastScenePath);
-            fis = new FileInputStream(mSavedLastScenePath);
-            byte[] rawSavedSceneID = new byte[1];
-            fis.read(rawSavedSceneID);
-            savedSceneID = rawSavedSceneID[0];
-        } catch (IOException e) {
-            Log.e(TAG, e.toString());
-        } finally {
-            Utils.closeStream(fis);
+        if (mSharedPreferences.getBoolean(PREFERENCE_PARENTAL_MODE, false)){
+            try {
+                Log.d(TAG, "Loading scene from: " + mSavedLastScenePath);
+                fis = new FileInputStream(mSavedLastScenePath);
+                byte[] rawSavedSceneID = new byte[1];
+                fis.read(rawSavedSceneID);
+                savedSceneID = rawSavedSceneID[0];
+            } catch (IOException e) {
+                Log.e(TAG, e.toString());
+            } finally {
+                Utils.closeStream(fis);
+                return savedSceneID;
+            }
+        } else {
             return savedSceneID;
         }
+    }
+
+    protected Typeface getTypeface() {
+        return mTypeFace;
+    }
+
+    protected SharedPreferences getApplicationPreferences() {
+        return mSharedPreferences;
     }
 
     @Override
