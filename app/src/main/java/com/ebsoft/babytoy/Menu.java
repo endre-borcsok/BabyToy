@@ -41,7 +41,7 @@ public class Menu extends Scene {
         @Override
         public void onClick(View view) {
             getApplicationPreferences().edit().putBoolean(MainActivity.PREFERENCE_PARENTAL_MODE, true).commit();
-            loadScene(new Boards(mParentActivity));
+            loadScene(new Game(mParentActivity));
         }
     };
 }

@@ -59,8 +59,8 @@ public class MainActivity extends Activity {
             return new SplashScreen(this);
         } else if (ID == Menu.SCENE_ID) {
             return new Menu(this);
-        } else if (ID == Boards.SCENE_ID) {
-            return new Boards(this);
+        } else if (ID == Game.SCENE_ID) {
+            return new Game(this);
         } else {
             return new SplashScreen(this);
         }

@@ -10,16 +10,68 @@
         android:scaleType="centerCrop"/>
 
     <LinearLayout
+        android:layout_above="@+id/navigationBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true">
 
         <GridLayout
+            android:id="@+id/board"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:columnCount="2">
         </GridLayout>
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/navigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_alignParentBottom="true">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/cathegory_bar"
+                android:scaleType="fitXY"/>
+
+            <TextView
+                android:id="@+id/textCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/menu_button_text_size"
+                android:layout_centerInParent="true"
+                android:text="Animals"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/textPrevious"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:textSize="@dimen/menu_button_text_size"
+            android:text="Previous"/>
+
+        <TextView
+            android:id="@+id/textNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:textSize="@dimen/menu_button_text_size"
+            android:text="Next"/>
+    </RelativeLayout>
 
 </RelativeLayout>
