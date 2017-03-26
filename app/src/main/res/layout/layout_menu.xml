@@ -27,6 +27,7 @@
             android:layout_centerInParent="true">
 
             <RelativeLayout
+                android:id="@+id/playButtonHolder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 

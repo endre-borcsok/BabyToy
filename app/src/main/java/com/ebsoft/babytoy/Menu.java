@@ -1,6 +1,10 @@
 package com.ebsoft.babytoy;
 
+import android.graphics.Color;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
@@ -34,14 +38,25 @@ public class Menu extends Scene {
         mMenuTextMoreBoards.setTypeface(getTypeface());
         mMenuTextOptions.setTypeface(getTypeface());
 
-        mMenuTextPlay.setOnClickListener(mPlay);
+        RelativeLayout playButtonHolder = (RelativeLayout) findViewById(R.id.playButtonHolder);
+        playButtonHolder.setOnTouchListener(playButtonListener);
     }
 
-    private View.OnClickListener mPlay = new View.OnClickListener() {
+    private View.OnTouchListener playButtonListener = new View.OnTouchListener() {
         @Override
-        public void onClick(View view) {
-            getApplicationPreferences().edit().putBoolean(MainActivity.PREFERENCE_PARENTAL_MODE, true).commit();
-            loadScene(new Game(mParentActivity));
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    mMenuTextPlay.setTextColor(Color.RED);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    getApplicationPreferences().edit().putBoolean(MainActivity.PREFERENCE_PARENTAL_MODE, true).commit();
+                    loadScene(new Game(mParentActivity));
+                case MotionEvent.ACTION_CANCEL:
+                    mMenuTextPlay.setTextColor(Color.WHITE);
+                    break;
+            }
+            return true;
         }
     };
 }

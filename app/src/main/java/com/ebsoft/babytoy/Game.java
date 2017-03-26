@@ -1,9 +1,7 @@
 package com.ebsoft.babytoy;
 
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.SoundPool;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -95,7 +93,14 @@ public class Game extends Scene {
     Runnable mBackPressRunnable = new Runnable() {
         @Override
         public void run() {
-            ParentalDialog dialog = ParentalDialog.newInstance("asd");
+            ParentalDialog dialog = ParentalDialog.newInstance("asd", new Runnable() {
+                @Override
+                public void run() {
+                    getApplicationPreferences().edit().putBoolean(MainActivity.PREFERENCE_PARENTAL_MODE, false).commit();
+                    setBackPressRunnable(null);
+                    loadScene(new Menu(mParentActivity));
+                }
+            });
             dialog.show(mParentActivity.getFragmentManager(), TAG);
         }
     };

@@ -117,10 +117,12 @@ public class MainActivity extends Activity {
     @Override
     public void onPause() {
         super.onPause();
-        finish();
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        if (mSharedPreferences.getBoolean(PREFERENCE_PARENTAL_MODE, false)) {
+            finish();
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
     }
 
     public void setBackPressRunnable(Runnable runnable) {
