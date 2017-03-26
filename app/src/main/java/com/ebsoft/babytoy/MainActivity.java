@@ -24,6 +24,7 @@ public class MainActivity extends Activity {
     private String mSavedLastScenePath = null;
     private Typeface mTypeFace = null;
     private SharedPreferences mSharedPreferences = null;
+    private Runnable mBackPressRunnalbe = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -120,6 +121,19 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    public void setBackPressRunnable(Runnable runnable) {
+        mBackPressRunnalbe = runnable;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mBackPressRunnalbe == null) {
+            super.onBackPressed();
+        } else {
+            mBackPressRunnalbe.run();
+        }
     }
 
     @Override

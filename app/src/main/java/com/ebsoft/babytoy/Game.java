@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 public class Game extends Scene {
     public static final int SCENE_ID = 0x03;
+    private final String TAG = Game.class.getSimpleName();
 
     private LayoutInflater mInflater = null;
     private GridLayout mBoard;
@@ -55,6 +56,7 @@ public class Game extends Scene {
 
         Animals animals = new Animals();
         initBoard(animals.getElements());
+        setBackPressRunnable(mBackPressRunnable);
     }
 
     private void initBoard(ArrayList<BoardElement> boardElementList) {
@@ -89,4 +91,12 @@ public class Game extends Scene {
             }
         });
     }
+
+    Runnable mBackPressRunnable = new Runnable() {
+        @Override
+        public void run() {
+            ParentalDialog dialog = ParentalDialog.newInstance("asd");
+            dialog.show(mParentActivity.getFragmentManager(), TAG);
+        }
+    };
 }

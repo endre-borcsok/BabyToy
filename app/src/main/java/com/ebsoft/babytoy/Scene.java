@@ -36,6 +36,10 @@ public class Scene implements Runnable {
         return mParentActivity.getApplicationPreferences();
     }
 
+    public void setBackPressRunnable(Runnable runnable) {
+        mParentActivity.setBackPressRunnable(runnable);
+    }
+
     @Override
     public void run() {}
 }
