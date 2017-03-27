@@ -3,7 +3,6 @@ package com.ebsoft.babytoy;
 import android.graphics.Color;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -12,6 +11,7 @@ import android.widget.TextView;
  */
 
 public class Menu extends Scene {
+    private final String TAG = Menu.class.getSimpleName();
     public static final int SCENE_ID = 0x02;
 
     private TextView mMenuTextPlay = null;
@@ -40,6 +40,9 @@ public class Menu extends Scene {
 
         RelativeLayout playButtonHolder = (RelativeLayout) findViewById(R.id.playButtonHolder);
         playButtonHolder.setOnTouchListener(playButtonListener);
+
+        RelativeLayout settingsButtonHolder = (RelativeLayout) findViewById(R.id.settingsButtonHolder);
+        settingsButtonHolder.setOnTouchListener(settingsButtonListener);
     }
 
     private View.OnTouchListener playButtonListener = new View.OnTouchListener() {
@@ -54,6 +57,24 @@ public class Menu extends Scene {
                     loadScene(new Game(mParentActivity));
                 case MotionEvent.ACTION_CANCEL:
                     mMenuTextPlay.setTextColor(Color.WHITE);
+                    break;
+            }
+            return true;
+        }
+    };
+
+    private View.OnTouchListener settingsButtonListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    mMenuTextOptions.setTextColor(Color.RED);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    SettingsDialog settingsDialog = SettingsDialog.newInstance("title", null, getApplicationPreferences());
+                    settingsDialog.show(mParentActivity.getFragmentManager(), TAG);
+                case MotionEvent.ACTION_CANCEL:
+                    mMenuTextOptions.setTextColor(Color.WHITE);
                     break;
             }
             return true;

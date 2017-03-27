@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/dialog_background"
+        android:scaleType="fitXY"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true">
+
+        <TextView
+            android:id="@+id/textVibration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:paddingLeft="20dp"
+            android:layout_alignParentLeft="true"
+            android:textSize="@dimen/menu_button_text_size"
+            android:text="Vibration"/>
+
+        <ImageView
+            android:id="@+id/vibrationTick"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:paddingRight="20dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/button_grey"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/tick"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/tick_green"/>
+</RelativeLayout>
