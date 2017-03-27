@@ -75,6 +75,7 @@ public class Game extends Scene {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        vibrate();
                         ImageView frame = (ImageView) v.findViewById(R.id.frame);
                         frame.setImageResource(R.drawable.board_element_red);
                         mSoundPool.play((int) v.getTag(), 1, 1, 0, 0, 1);

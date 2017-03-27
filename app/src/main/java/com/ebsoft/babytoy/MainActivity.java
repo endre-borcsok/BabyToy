@@ -1,10 +1,12 @@
 package com.ebsoft.babytoy;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 
@@ -25,6 +27,7 @@ public class MainActivity extends Activity {
     private Typeface mTypeFace = null;
     private SharedPreferences mSharedPreferences = null;
     private Runnable mBackPressRunnalbe = null;
+    private Vibrator mVibrator;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -103,6 +106,15 @@ public class MainActivity extends Activity {
             }
         } else {
             return savedSceneID;
+        }
+    }
+
+    public void vibrate() {
+        if (mSharedPreferences.getBoolean(SettingsDialog.PREFERENCE_VIBRATION, true)) {
+            if (mVibrator == null) {
+                mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            }
+            mVibrator.vibrate(100);
         }
     }
 

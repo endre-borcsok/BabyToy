@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 public class SettingsDialog extends DialogFragment {
 
-    private final String PREFERENCE_VIBRATION = "Vibration";
+    public static final String PREFERENCE_VIBRATION = "Vibration";
 
     private Typeface mTypeFace = null;
     private TextView mVibrationtext;

@@ -1,6 +1,8 @@
 package com.ebsoft.babytoy;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.os.Vibrator;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -51,6 +53,7 @@ public class Menu extends Scene {
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     mMenuTextPlay.setTextColor(Color.RED);
+                    vibrate();
                     break;
                 case MotionEvent.ACTION_UP:
                     getApplicationPreferences().edit().putBoolean(MainActivity.PREFERENCE_PARENTAL_MODE, true).commit();
@@ -69,6 +72,7 @@ public class Menu extends Scene {
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     mMenuTextOptions.setTextColor(Color.RED);
+                    vibrate();
                     break;
                 case MotionEvent.ACTION_UP:
                     SettingsDialog settingsDialog = SettingsDialog.newInstance("title", null, getApplicationPreferences());

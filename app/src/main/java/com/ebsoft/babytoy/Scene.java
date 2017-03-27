@@ -40,6 +40,10 @@ public class Scene implements Runnable {
         mParentActivity.setBackPressRunnable(runnable);
     }
 
+    public void vibrate() {
+        mParentActivity.vibrate();
+    }
+
     @Override
     public void run() {}
 }

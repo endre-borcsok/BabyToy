@@ -2,6 +2,8 @@
 
     package="com.ebsoft.babytoy">
 
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
