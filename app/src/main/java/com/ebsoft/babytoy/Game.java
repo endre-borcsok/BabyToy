@@ -2,11 +2,15 @@ package com.ebsoft.babytoy;
 
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ebsoft.babytoy.Boards.Animals;
@@ -21,6 +25,9 @@ import java.util.ArrayList;
 public class Game extends Scene {
     public static final int SCENE_ID = 0x03;
     private final String TAG = Game.class.getSimpleName();
+    private final int BOARD_ELEMENT_COUNT = 8;
+    private final int BOARD_ROW_COUNT = 4;
+    private final int BOARD_COLUMN_COUNT = 2;
 
     private LayoutInflater mInflater = null;
     private GridLayout mBoard;
@@ -28,6 +35,9 @@ public class Game extends Scene {
     private TextView mPrevious;
     private TextView mNext;
     private SoundPool mSoundPool;
+    private View mDecorView;
+
+    private boolean mBoardInitialised = false;
 
     public Game(MainActivity parentActivity) {
         super(parentActivity);
@@ -55,18 +65,45 @@ public class Game extends Scene {
         Animals animals = new Animals();
         initBoard(animals.getElements());
         setBackPressRunnable(mBackPressRunnable);
+
+        mDecorView = mParentActivity.getWindow().getDecorView();
+        mDecorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+                    @Override
+                    public void onSystemUiVisibilityChange(int visibility) {
+                        if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) != 0) {
+                            Animals animals = new Animals();
+                            initBoard(animals.getElements());
+                        }
+                    }
+        });
     }
 
-    private void initBoard(ArrayList<BoardElement> boardElementList) {
-        for (int i = 0; i < boardElementList.size(); i++) {
-            View mBoardElement = mInflater.inflate(R.layout.layout_board_element, null);
-            int soundId = mSoundPool.load(mParentActivity, boardElementList.get(i).soundID, 1);
-            ImageView elementImage = (ImageView) mBoardElement.findViewById(R.id.elementImage);
-            elementImage.setImageResource(boardElementList.get(i).imageID);
-            addTouchListener(mBoardElement);
-            mBoardElement.setTag(soundId);
-            mBoard.addView(mBoardElement);
-        }
+    private void initBoard(final ArrayList<BoardElement> boardElementList) {
+        mBoardInitialised = false;
+        mBoard.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Log.d(TAG, "layout");
+                if (!mBoardInitialised) {
+                    mBoardInitialised = true;
+
+                    int width = mBoard.getWidth() / BOARD_COLUMN_COUNT;
+                    int height = mBoard.getHeight() / BOARD_ROW_COUNT;
+
+                    for (int i = 0; i < BOARD_ELEMENT_COUNT; i++) {
+                        View mBoardElement = mInflater.inflate(R.layout.layout_board_element, null);
+                        int soundId = mSoundPool.load(mParentActivity, boardElementList.get(i).soundID, 1);
+                        ImageView elementImage = (ImageView) mBoardElement.findViewById(R.id.elementImage);
+                        RelativeLayout.LayoutParams elementParams = new RelativeLayout.LayoutParams(width, height);
+                        mBoardElement.setLayoutParams(elementParams);
+                        elementImage.setImageResource(boardElementList.get(i).imageID);
+                        addTouchListener(mBoardElement);
+                        mBoardElement.setTag(soundId);
+                        mBoard.addView(mBoardElement, i);
+                    }
+                }
+            }
+        });
     }
 
     private void addTouchListener(final View v) {
@@ -97,6 +134,7 @@ public class Game extends Scene {
             ParentalDialog dialog = ParentalDialog.newInstance("asd", new Runnable() {
                 @Override
                 public void run() {
+                    mDecorView.setOnSystemUiVisibilityChangeListener(null);
                     getApplicationPreferences().edit().putBoolean(MainActivity.PREFERENCE_PARENTAL_MODE, false).commit();
                     setBackPressRunnable(null);
                     loadScene(new Menu(mParentActivity));

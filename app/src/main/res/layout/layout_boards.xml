@@ -9,20 +9,15 @@
         android:src="@drawable/background"
         android:scaleType="centerCrop"/>
 
-    <LinearLayout
+    <GridLayout
+        android:id="@+id/board"
         android:layout_above="@+id/navigationBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true">
-
-        <GridLayout
-            android:id="@+id/board"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:columnCount="2">
-        </GridLayout>
-    </LinearLayout>
+        android:layout_alignParentTop="true"
+        android:columnCount="2">
+    </GridLayout>
 
     <RelativeLayout
         android:id="@+id/navigationBar"

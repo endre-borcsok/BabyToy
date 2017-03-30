@@ -5,16 +5,14 @@
 
     <ImageView
         android:id="@+id/frame"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
         android:src="@drawable/board_element_green"/>
 
     <ImageView
         android:id="@+id/elementImage"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"/>
 </RelativeLayout>
