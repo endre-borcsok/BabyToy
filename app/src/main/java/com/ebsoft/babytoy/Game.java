@@ -1,5 +1,6 @@
 package com.ebsoft.babytoy;
 
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.util.Log;
@@ -15,8 +16,12 @@ import android.widget.TextView;
 import com.ebsoft.babytoy.Boards.Animals;
 import com.ebsoft.babytoy.Boards.Board;
 import com.ebsoft.babytoy.Boards.BoardElement;
+import com.ebsoft.babytoy.Boards.Instruments;
+import com.ebsoft.babytoy.Boards.Jungle;
 
 import java.util.ArrayList;
+
+import static android.view.View.GONE;
 
 /**
  * Created by Endre on 25/03/2017.
@@ -37,6 +42,9 @@ public class Game extends Scene {
     private TextView mNext;
     private SoundPool mSoundPool;
     private View mDecorView;
+    private String mCurrentBoard;
+    private int mCurrentBoardIndex = 0;
+    private ArrayList<Board> mBoardList;
 
     private boolean mBoardInitialised = false;
 
@@ -61,8 +69,11 @@ public class Game extends Scene {
 
         mCategory.setTypeface(getTypeface());
         mPrevious.setTypeface(getTypeface());
+        mPrevious.setOnTouchListener(mTouchPrevious);
         mNext.setTypeface(getTypeface());
+        mNext.setOnTouchListener(mTouchNext);
 
+        initBoardList();
         initBoard(getLastBoard());
         setBackPressRunnable(mBackPressRunnable);
 
@@ -77,15 +88,18 @@ public class Game extends Scene {
         });
     }
 
-    private void initBoard(final Board board) {
+    private void initBoard(Board board) {
         mBoardInitialised = false;
+        saveBoard(board);
+        mBoard.requestLayout();
         mBoard.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                Log.d(TAG, "layout");
                 if (!mBoardInitialised) {
+                    Log.d(TAG, "layout");
                     mBoardInitialised = true;
 
+                    Board board = getLastBoard();
                     mCategory.setText(board.getBoardName());
                     ArrayList<BoardElement> boardElementList = board.getElements();
 
@@ -102,6 +116,18 @@ public class Game extends Scene {
                         addTouchListener(mBoardElement);
                         mBoardElement.setTag(soundId);
                         mBoard.addView(mBoardElement, i);
+                    }
+
+                    if (mCurrentBoardIndex == 0) {
+                        mPrevious.setVisibility(GONE);
+                    } else {
+                        mPrevious.setVisibility(View.VISIBLE);
+                    }
+
+                    if (mCurrentBoardIndex == mBoardList.size()-1) {
+                        mNext.setVisibility(GONE);
+                    } else {
+                        mNext.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -130,13 +156,44 @@ public class Game extends Scene {
         });
     }
 
-    private Board getLastBoard() {
-        String lastBoardName = getApplicationPreferences().getString(LAST_BOARD_KEY, Animals.BOARD_ANIMALS);
+    private void initBoardList() {
+        mBoardList = new ArrayList<>();
+        mBoardList.add(new Animals());
+        mBoardList.add(new Instruments());
+        mBoardList.add(new Jungle());
+    }
 
-        if (lastBoardName.equalsIgnoreCase(Animals.BOARD_ANIMALS)) {
+    private Board getLastBoard() {
+        mCurrentBoard = getApplicationPreferences().getString(LAST_BOARD_KEY, Animals.BOARD_ANIMALS);
+
+        for (int i = 0;i < mBoardList.size(); i++) {
+            if (mCurrentBoard.equalsIgnoreCase(mBoardList.get(i).getBoardName())) {
+                mCurrentBoardIndex = i;
+            }
+        }
+
+        if (mCurrentBoard.equalsIgnoreCase(Animals.BOARD_ANIMALS)) {
             return new Animals();
+        } else if (mCurrentBoard.equalsIgnoreCase(Instruments.BOARD_INSTRUMENTS)) {
+            return new Instruments();
+        } else if (mCurrentBoard.equalsIgnoreCase(Jungle.BOARD_JUNGLE)) {
+            return new Jungle();
         } else {
             return new Animals();
+        }
+    }
+
+    private void getNextBoard() {
+        if (mCurrentBoardIndex + 1 <= mBoardList.size()-1) {
+            ++mCurrentBoardIndex;
+            initBoard(mBoardList.get(mCurrentBoardIndex));
+        }
+    }
+
+    private void getPreviousBoard() {
+        if (mCurrentBoardIndex >= 0) {
+            --mCurrentBoardIndex;
+            initBoard(mBoardList.get(mCurrentBoardIndex));
         }
     }
 
@@ -157,6 +214,42 @@ public class Game extends Scene {
                 }
             });
             dialog.show(mParentActivity.getFragmentManager(), TAG);
+        }
+    };
+
+    private View.OnTouchListener mTouchPrevious = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    vibrate();
+                    mPrevious.setTextColor(Color.RED);
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    getPreviousBoard();
+                    mPrevious.setTextColor(Color.WHITE);
+                    break;
+            }
+            return true;
+        }
+    };
+
+    private View.OnTouchListener mTouchNext = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    vibrate();
+                    mNext.setTextColor(Color.RED);
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    getNextBoard();
+                    mNext.setTextColor(Color.WHITE);
+                    break;
+            }
+            return true;
         }
     };
 }

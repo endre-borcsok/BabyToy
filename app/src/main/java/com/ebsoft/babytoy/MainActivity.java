@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -124,6 +125,14 @@ public class MainActivity extends Activity {
 
     protected SharedPreferences getApplicationPreferences() {
         return mSharedPreferences;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mSharedPreferences.getBoolean(PREFERENCE_PARENTAL_MODE, false)) {
+            Toast.makeText(this, "Press the \"Back\" button to disable locked screen mode!", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

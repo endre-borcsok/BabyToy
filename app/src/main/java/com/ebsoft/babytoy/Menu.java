@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by Endre on 25/03/2017.
@@ -58,6 +59,7 @@ public class Menu extends Scene {
                 case MotionEvent.ACTION_UP:
                     getApplicationPreferences().edit().putBoolean(MainActivity.PREFERENCE_PARENTAL_MODE, true).commit();
                     loadScene(new Game(mParentActivity));
+                    Toast.makeText(mParentActivity, "Screen lock activated! Press the \"Back\" button to disable locked screen mode!", Toast.LENGTH_LONG).show();
                 case MotionEvent.ACTION_CANCEL:
                     mMenuTextPlay.setTextColor(Color.WHITE);
                     break;
