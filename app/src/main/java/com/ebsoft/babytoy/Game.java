@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -14,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ebsoft.babytoy.Boards.Animals;
+import com.ebsoft.babytoy.Boards.Board;
 import com.ebsoft.babytoy.Boards.BoardElement;
 
 import java.util.ArrayList;
@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 public class Game extends Scene {
     public static final int SCENE_ID = 0x03;
+    private final String LAST_BOARD_KEY = "LastBoardKey";
     private final String TAG = Game.class.getSimpleName();
     private final int BOARD_ELEMENT_COUNT = 8;
     private final int BOARD_ROW_COUNT = 4;
@@ -62,8 +63,7 @@ public class Game extends Scene {
         mPrevious.setTypeface(getTypeface());
         mNext.setTypeface(getTypeface());
 
-        Animals animals = new Animals();
-        initBoard(animals.getElements());
+        initBoard(getLastBoard());
         setBackPressRunnable(mBackPressRunnable);
 
         mDecorView = mParentActivity.getWindow().getDecorView();
@@ -71,14 +71,13 @@ public class Game extends Scene {
                     @Override
                     public void onSystemUiVisibilityChange(int visibility) {
                         if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) != 0) {
-                            Animals animals = new Animals();
-                            initBoard(animals.getElements());
+                            initBoard(getLastBoard());
                         }
                     }
         });
     }
 
-    private void initBoard(final ArrayList<BoardElement> boardElementList) {
+    private void initBoard(final Board board) {
         mBoardInitialised = false;
         mBoard.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -86,6 +85,9 @@ public class Game extends Scene {
                 Log.d(TAG, "layout");
                 if (!mBoardInitialised) {
                     mBoardInitialised = true;
+
+                    mCategory.setText(board.getBoardName());
+                    ArrayList<BoardElement> boardElementList = board.getElements();
 
                     int width = mBoard.getWidth() / BOARD_COLUMN_COUNT;
                     int height = mBoard.getHeight() / BOARD_ROW_COUNT;
@@ -126,6 +128,20 @@ public class Game extends Scene {
                 return true;
             }
         });
+    }
+
+    private Board getLastBoard() {
+        String lastBoardName = getApplicationPreferences().getString(LAST_BOARD_KEY, Animals.BOARD_ANIMALS);
+
+        if (lastBoardName.equalsIgnoreCase(Animals.BOARD_ANIMALS)) {
+            return new Animals();
+        } else {
+            return new Animals();
+        }
+    }
+
+    private void saveBoard(Board currentBoard) {
+        getApplicationPreferences().edit().putString(LAST_BOARD_KEY, currentBoard.getBoardName()).commit();
     }
 
     Runnable mBackPressRunnable = new Runnable() {
