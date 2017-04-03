@@ -1,6 +1,5 @@
 package com.ebsoft.babytoy;
 
-import android.app.DialogFragment;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -18,7 +17,7 @@ import android.widget.TextView;
  * Created by Endre on 27/03/2017.
  */
 
-public class SettingsDialog extends DialogFragment {
+public class SettingsDialog extends Dialog {
 
     public static final String PREFERENCE_VIBRATION = "Vibration";
 

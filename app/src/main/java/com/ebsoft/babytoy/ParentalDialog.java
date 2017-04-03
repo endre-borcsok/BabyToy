@@ -1,6 +1,5 @@
 package com.ebsoft.babytoy;
 
-import android.app.DialogFragment;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -19,7 +18,7 @@ import java.util.Random;
  * Created by Endre on 26/03/2017.
  */
 
-public class ParentalDialog extends DialogFragment {
+public class ParentalDialog extends Dialog {
 
     private Typeface mTypeFace = null;
     private TextView mQuestionText;
