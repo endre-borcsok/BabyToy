@@ -131,6 +131,7 @@ public class MainActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
+        checkForCrashes();
         if (mSharedPreferences.getBoolean(PREFERENCE_PARENTAL_MODE, false)) {
             Toast.makeText(this, "Press the \"Back\" button to disable locked screen mode!", Toast.LENGTH_LONG).show();
         }
@@ -158,6 +159,10 @@ public class MainActivity extends Activity {
         } else {
             mBackPressRunnalbe.run();
         }
+    }
+
+    private void checkForCrashes() {
+        CrashManager.register(this);
     }
 
     @Override
