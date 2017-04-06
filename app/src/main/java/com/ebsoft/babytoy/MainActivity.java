@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import net.hockeyapp.android.CrashManager;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
