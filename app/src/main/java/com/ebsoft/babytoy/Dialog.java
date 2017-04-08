@@ -8,6 +8,9 @@ import android.util.DisplayMetrics;
  */
 
 public class Dialog extends DialogFragment {
+
+    protected Runnable mOnDialogCompleted;
+
     @Override
     public void onResume() {
         super.onResume();
@@ -16,5 +19,9 @@ public class Dialog extends DialogFragment {
         int width = (int) (displayMetrics.widthPixels * 0.8f);
         int height = (int) (width * (4f/3f));
         getDialog().getWindow().setLayout(width, height);
+    }
+
+    public void addOnCompletedRunnable(Runnable onDialogCompleted) {
+        this.mOnDialogCompleted = onDialogCompleted;
     }
 }

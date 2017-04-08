@@ -27,7 +27,6 @@ public class ParentalDialog extends Dialog {
     private ImageView mPositive;
     private ImageView mNegative;
     private ImageView mAccept;
-    private Runnable mOnDialogCompleted;
 
     private int mNumberOne;
     private int mNumberTwo;
@@ -35,15 +34,11 @@ public class ParentalDialog extends Dialog {
 
     public static ParentalDialog newInstance(String title, Runnable onDialogCompleted) {
         ParentalDialog frag = new ParentalDialog();
-        frag.addOnDialogCompletednTask(onDialogCompleted);
+        frag.addOnCompletedRunnable(onDialogCompleted);
         Bundle args = new Bundle();
         args.putString("title", title);
         frag.setArguments(args);
         return frag;
-    }
-
-    public void addOnDialogCompletednTask(Runnable onDialogCompleted) {
-        this.mOnDialogCompleted = onDialogCompleted;
     }
 
     @Override

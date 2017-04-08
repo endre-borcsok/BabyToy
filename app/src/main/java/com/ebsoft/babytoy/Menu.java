@@ -44,6 +44,9 @@ public class Menu extends Scene {
         RelativeLayout playButtonHolder = (RelativeLayout) findViewById(R.id.playButtonHolder);
         playButtonHolder.setOnTouchListener(playButtonListener);
 
+        RelativeLayout moreBoardsHolder = (RelativeLayout) findViewById(R.id.moreBoardsHolder);
+        moreBoardsHolder.setOnTouchListener(moreBoardsButtonListener);
+
         RelativeLayout settingsButtonHolder = (RelativeLayout) findViewById(R.id.settingsButtonHolder);
         settingsButtonHolder.setOnTouchListener(settingsButtonListener);
     }
@@ -68,6 +71,26 @@ public class Menu extends Scene {
         }
     };
 
+    private View.OnTouchListener moreBoardsButtonListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    mMenuTextMoreBoards.setTextColor(Color.RED);
+                    vibrate();
+                    break;
+                case MotionEvent.ACTION_UP:
+                    ParentalDialog parentalDialog = new ParentalDialog();
+                    parentalDialog.show(mParentActivity.getFragmentManager(), TAG);
+                    parentalDialog.addOnCompletedRunnable(mOnMoreBoardsDialogAccepted);
+                case MotionEvent.ACTION_CANCEL:
+                    mMenuTextMoreBoards.setTextColor(Color.WHITE);
+                    break;
+            }
+            return true;
+        }
+    };
+
     private View.OnTouchListener settingsButtonListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -84,6 +107,13 @@ public class Menu extends Scene {
                     break;
             }
             return true;
+        }
+    };
+
+    private Runnable mOnMoreBoardsDialogAccepted = new Runnable() {
+        @Override
+        public void run() {
+
         }
     };
 }

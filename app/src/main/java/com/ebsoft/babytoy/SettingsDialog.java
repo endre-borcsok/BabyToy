@@ -25,12 +25,11 @@ public class SettingsDialog extends Dialog {
     private TextView mVibrationtext;
     private ImageView mVibrationTick;
     private ImageView mAccept;
-    private Runnable mOnDialogCompleted;
     private SharedPreferences mPreferences;
 
     public static SettingsDialog newInstance(String title, Runnable onDialogCompleted, SharedPreferences preferences) {
         SettingsDialog frag = new SettingsDialog();
-        frag.addOnDialogCompletednTask(onDialogCompleted);
+        frag.addOnCompletedRunnable(onDialogCompleted);
         frag.setPreferences(preferences);
         Bundle args = new Bundle();
         args.putString("title", title);
@@ -40,10 +39,6 @@ public class SettingsDialog extends Dialog {
 
     public void setPreferences(SharedPreferences preferences) {
         this.mPreferences = preferences;
-    }
-
-    public void addOnDialogCompletednTask(Runnable onDialogCompleted) {
-        this.mOnDialogCompleted = onDialogCompleted;
     }
 
     @Override
