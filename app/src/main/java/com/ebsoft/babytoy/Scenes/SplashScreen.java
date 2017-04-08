@@ -1,8 +1,10 @@
-package com.ebsoft.babytoy;
+package com.ebsoft.babytoy.Scenes;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.widget.TextView;
+
+import com.ebsoft.babytoy.MainActivity;
+import com.ebsoft.babytoy.R;
 
 /**
  * Created by Endre on 25/03/2017.

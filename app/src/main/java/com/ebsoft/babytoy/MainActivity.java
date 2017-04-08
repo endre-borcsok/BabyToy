@@ -1,16 +1,27 @@
 package com.ebsoft.babytoy;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import com.android.vending.billing.IInAppBillingService;
+import com.ebsoft.babytoy.Dialogs.SettingsDialog;
+import com.ebsoft.babytoy.Scenes.Game;
+import com.ebsoft.babytoy.Scenes.Menu;
+import com.ebsoft.babytoy.Scenes.Scene;
+import com.ebsoft.babytoy.Scenes.SplashScreen;
 
 import net.hockeyapp.android.CrashManager;
 
@@ -30,12 +41,40 @@ public class MainActivity extends Activity {
     private String mSavedLastScenePath = null;
     private Typeface mTypeFace = null;
     private SharedPreferences mSharedPreferences = null;
-    private Runnable mBackPressRunnalbe = null;
+    private Runnable mBackPressRunnable = null;
     private Vibrator mVibrator;
+    private Purchases mPurchases;
+
+    private boolean mAllBoardsAvailable = false;
+
+    IInAppBillingService mService;
+
+    ServiceConnection mServiceConn = new ServiceConnection() {
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mService = null;
+        }
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mService = IInAppBillingService.Stub.asInterface(service);
+            mPurchases = new Purchases(mService);
+
+            try {
+                mAllBoardsAvailable = mPurchases.hasProductPurchased(MainActivity.this, Purchases.SKU_ALL_BOARDS);
+            } catch (RemoteException e) {
+                Log.e(TAG, e.toString());
+            }
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
+        serviceIntent.setPackage("com.android.vending");
+        bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
 
         mSavedLastScenePath = getFilesDir().getAbsolutePath() + "/lastScene.obj";
         mTypeFace = Typeface.createFromAsset(getAssets(),"fonts/Chewy.ttf");
@@ -122,11 +161,19 @@ public class MainActivity extends Activity {
         }
     }
 
-    protected Typeface getTypeface() {
+    public boolean isAllBoardsAvailable() {
+        return mAllBoardsAvailable;
+    }
+
+    public IInAppBillingService getBillingService() {
+        return mService;
+    }
+
+    public Typeface getTypeface() {
         return mTypeFace;
     }
 
-    protected SharedPreferences getApplicationPreferences() {
+    public SharedPreferences getApplicationPreferences() {
         return mSharedPreferences;
     }
 
@@ -151,15 +198,15 @@ public class MainActivity extends Activity {
     }
 
     public void setBackPressRunnable(Runnable runnable) {
-        mBackPressRunnalbe = runnable;
+        mBackPressRunnable = runnable;
     }
 
     @Override
     public void onBackPressed() {
-        if (mBackPressRunnalbe == null) {
+        if (mBackPressRunnable == null) {
             super.onBackPressed();
         } else {
-            mBackPressRunnalbe.run();
+            mBackPressRunnable.run();
         }
     }
 
@@ -180,6 +227,29 @@ public class MainActivity extends Activity {
                                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mService != null) {
+            unbindService(mServiceConn);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1001) {
+            int responseCode = data.getIntExtra("RESPONSE_CODE", 0);
+            String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");
+            String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
+
+            if (resultCode == RESULT_OK) {
+
+            } else if (resultCode == RESULT_CANCELED) {
+
+            }
         }
     }
 }

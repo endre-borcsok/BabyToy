@@ -1,4 +1,4 @@
-package com.ebsoft.babytoy;
+package com.ebsoft.babytoy.Dialogs;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.ebsoft.babytoy.R;
 
 /**
  * Created by Endre on 27/03/2017.

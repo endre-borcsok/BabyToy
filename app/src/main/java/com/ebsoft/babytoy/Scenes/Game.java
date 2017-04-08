@@ -1,4 +1,4 @@
-package com.ebsoft.babytoy;
+package com.ebsoft.babytoy.Scenes;
 
 import android.graphics.Color;
 import android.media.AudioManager;
@@ -18,6 +18,9 @@ import com.ebsoft.babytoy.Boards.Board;
 import com.ebsoft.babytoy.Boards.BoardElement;
 import com.ebsoft.babytoy.Boards.Instruments;
 import com.ebsoft.babytoy.Boards.Jungle;
+import com.ebsoft.babytoy.Dialogs.ParentalDialog;
+import com.ebsoft.babytoy.MainActivity;
+import com.ebsoft.babytoy.R;
 
 import java.util.ArrayList;
 

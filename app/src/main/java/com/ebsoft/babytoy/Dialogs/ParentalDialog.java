@@ -1,4 +1,4 @@
-package com.ebsoft.babytoy;
+package com.ebsoft.babytoy.Dialogs;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.ebsoft.babytoy.R;
 
 import java.util.Random;
 

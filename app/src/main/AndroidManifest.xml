@@ -3,6 +3,7 @@
     package="com.ebsoft.babytoy">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
         android:allowBackup="true"

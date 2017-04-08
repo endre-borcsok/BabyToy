@@ -1,8 +1,10 @@
-package com.ebsoft.babytoy;
+package com.ebsoft.babytoy.Scenes;
 
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.view.View;
+
+import com.ebsoft.babytoy.MainActivity;
 
 /**
  * Created by Endre on 25/03/2017.

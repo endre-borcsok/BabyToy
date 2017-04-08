@@ -1,4 +1,4 @@
-package com.ebsoft.babytoy;
+package com.ebsoft.babytoy.Dialogs;
 
 import android.app.DialogFragment;
 import android.util.DisplayMetrics;

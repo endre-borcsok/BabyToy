@@ -3,4 +3,7 @@
     <string name="menu_button_play_text">Play</string>
     <string name="menu_button_more_boards_text">More Boards</string>
     <string name="menu_button_options_text">Options</string>
+
+    <string name="layout_purchase_dialog_purchase">Purchase more boards for:</string>
+    <string name="layout_purchase_dialog_price_loading">Loading price...</string>
 </resources>

@@ -1,13 +1,23 @@
-package com.ebsoft.babytoy;
+package com.ebsoft.babytoy.Scenes;
 
-import android.content.Context;
+import android.content.IntentSender;
 import android.graphics.Color;
-import android.os.Vibrator;
+import android.os.RemoteException;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.ebsoft.babytoy.Dialogs.ParentalDialog;
+import com.ebsoft.babytoy.Dialogs.PurchaseDialog;
+import com.ebsoft.babytoy.Dialogs.SettingsDialog;
+import com.ebsoft.babytoy.MainActivity;
+import com.ebsoft.babytoy.Purchases;
+import com.ebsoft.babytoy.R;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Endre on 25/03/2017.
@@ -80,9 +90,12 @@ public class Menu extends Scene {
                     vibrate();
                     break;
                 case MotionEvent.ACTION_UP:
-                    ParentalDialog parentalDialog = new ParentalDialog();
-                    parentalDialog.show(mParentActivity.getFragmentManager(), TAG);
-                    parentalDialog.addOnCompletedRunnable(mOnMoreBoardsDialogAccepted);
+                    if (!mParentActivity.isAllBoardsAvailable()) {
+                        ParentalDialog dialog = ParentalDialog.newInstance("asd", mOnMoreBoardsDialogAccepted);
+                        dialog.show(mParentActivity.getFragmentManager(), TAG);
+                    } else {
+                        //TODO say thank you
+                    }
                 case MotionEvent.ACTION_CANCEL:
                     mMenuTextMoreBoards.setTextColor(Color.WHITE);
                     break;
@@ -113,7 +126,21 @@ public class Menu extends Scene {
     private Runnable mOnMoreBoardsDialogAccepted = new Runnable() {
         @Override
         public void run() {
-
+            Runnable purchaseRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Purchases purchase = new Purchases(mParentActivity.getBillingService());
+                        purchase.purchase(mParentActivity, Purchases.SKU_ALL_BOARDS);
+                    } catch (RemoteException e) {
+                        Log.e(TAG, e.toString());
+                    } catch (IntentSender.SendIntentException e) {
+                        Log.e(TAG, e.toString());
+                    }
+                }
+            };
+            PurchaseDialog dialog = PurchaseDialog.newInstance("asd", purchaseRunnable, mParentActivity.getBillingService());
+            dialog.show(mParentActivity.getFragmentManager(), TAG);
         }
     };
 }
