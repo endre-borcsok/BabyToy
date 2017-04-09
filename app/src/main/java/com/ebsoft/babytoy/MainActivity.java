@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.android.vending.billing.IInAppBillingService;
+import com.ebsoft.babytoy.Dialogs.InfoDialog;
 import com.ebsoft.babytoy.Dialogs.SettingsDialog;
 import com.ebsoft.babytoy.Scenes.Game;
 import com.ebsoft.babytoy.Scenes.Menu;
@@ -28,6 +29,8 @@ import net.hockeyapp.android.CrashManager;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Endre on 25/03/2017.
@@ -61,7 +64,14 @@ public class MainActivity extends Activity {
             mPurchases = new Purchases(mService);
 
             try {
-                mAllBoardsAvailable = mPurchases.hasProductPurchased(MainActivity.this, Purchases.SKU_ALL_BOARDS);
+                mAllBoardsAvailable = mPurchases.hasProductPurchased(MainActivity.this, Purchases.SKU_ALL_BOARDS, new Purchases.OnPurchaseEventListener() {
+                    @Override
+                    public void onError(String error) {
+                        String errorMessage = getResources().getString(R.string.dialog_error) + " " + error;
+                        InfoDialog dialog = InfoDialog.newInstance("asd", errorMessage, null);
+                        dialog.show(getFragmentManager(), TAG);
+                    }
+                });
             } catch (RemoteException e) {
                 Log.e(TAG, e.toString());
             }

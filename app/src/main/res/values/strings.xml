@@ -6,4 +6,7 @@
 
     <string name="layout_purchase_dialog_purchase">Purchase more boards for:</string>
     <string name="layout_purchase_dialog_price_loading">Loading price...</string>
+
+    <string name="dialog_error">Error:</string>
+    <string name="dialog_boards_have_been_unlocked">You have unlocked all boards.</string>
 </resources>

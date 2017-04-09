@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ebsoft.babytoy.Dialogs.InfoDialog;
 import com.ebsoft.babytoy.Dialogs.ParentalDialog;
 import com.ebsoft.babytoy.Dialogs.PurchaseDialog;
 import com.ebsoft.babytoy.Dialogs.SettingsDialog;
@@ -94,7 +95,9 @@ public class Menu extends Scene {
                         ParentalDialog dialog = ParentalDialog.newInstance("asd", mOnMoreBoardsDialogAccepted);
                         dialog.show(mParentActivity.getFragmentManager(), TAG);
                     } else {
-                        //TODO say thank you
+                        String message = mParentActivity.getResources().getString(R.string.dialog_boards_have_been_unlocked);
+                        InfoDialog dialog = InfoDialog.newInstance("asd", message, null);
+                        dialog.show(mParentActivity.getFragmentManager(), TAG);
                     }
                 case MotionEvent.ACTION_CANCEL:
                     mMenuTextMoreBoards.setTextColor(Color.WHITE);
@@ -131,7 +134,14 @@ public class Menu extends Scene {
                 public void run() {
                     try {
                         Purchases purchase = new Purchases(mParentActivity.getBillingService());
-                        purchase.purchase(mParentActivity, Purchases.SKU_ALL_BOARDS);
+                        purchase.purchase(mParentActivity, Purchases.SKU_ALL_BOARDS, new Purchases.OnPurchaseEventListener() {
+                            @Override
+                            public void onError(String error) {
+                                String errorMessage = mParentActivity.getResources().getString(R.string.dialog_error) + " " + error;
+                                InfoDialog dialog = InfoDialog.newInstance("asd", errorMessage, null);
+                                dialog.show(mParentActivity.getFragmentManager(), TAG);
+                            }
+                        });
                     } catch (RemoteException e) {
                         Log.e(TAG, e.toString());
                     } catch (IntentSender.SendIntentException e) {
