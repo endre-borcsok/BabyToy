@@ -9,4 +9,5 @@
 
     <string name="dialog_error">Error:</string>
     <string name="dialog_boards_have_been_unlocked">You have unlocked all boards.</string>
+    <string name="dialog_thanks_for_purchase">Thank you for your purchase!</string>
 </resources>

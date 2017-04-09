@@ -21,8 +21,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
+            android:textSize="@dimen/menu_button_text_size"
             android:gravity="center"
-            android:textSize="@dimen/menu_button_text_size"/>
+            android:text="@string/layout_purchase_dialog_purchase"/>
 
         <TextView
             android:id="@+id/textPrice"
