@@ -15,46 +15,46 @@ public class Music extends Board{
     public Music() {
         mBoardName = BOARD_INSTRUMENTS;
 
-        BoardElement dog = new BoardElement();
-        dog.imageID = R.drawable.dog;
-        dog.soundID = R.raw.dog;
+        BoardElement akkordeon = new BoardElement();
+        akkordeon.imageID = R.drawable.akkordeon;
+        akkordeon.soundID = R.raw.dog;
 
-        BoardElement cat = new BoardElement();
-        cat.imageID = R.drawable.cat;
-        cat.soundID = R.raw.cat;
+        BoardElement drums = new BoardElement();
+        drums.imageID = R.drawable.drums;
+        drums.soundID = R.raw.cat;
 
-        BoardElement cow = new BoardElement();
-        cow.imageID = R.drawable.cow;
-        cow.soundID = R.raw.cow;
+        BoardElement piano = new BoardElement();
+        piano.imageID = R.drawable.piano;
+        piano.soundID = R.raw.cow;
 
-        BoardElement duck = new BoardElement();
-        duck.imageID = R.drawable.duck;
-        duck.soundID = R.raw.duck;
+        BoardElement trumpet = new BoardElement();
+        trumpet.imageID = R.drawable.trumpet;
+        trumpet.soundID = R.raw.duck;
 
-        BoardElement goat = new BoardElement();
-        goat.imageID = R.drawable.goat;
-        goat.soundID = R.raw.goat;
+        BoardElement violin = new BoardElement();
+        violin.imageID = R.drawable.violin;
+        violin.soundID = R.raw.goat;
 
-        BoardElement hen = new BoardElement();
-        hen.imageID = R.drawable.hen;
-        hen.soundID = R.raw.hen;
+        BoardElement saxophone = new BoardElement();
+        saxophone.imageID = R.drawable.saxophone;
+        saxophone.soundID = R.raw.hen;
 
-        BoardElement horse = new BoardElement();
-        horse.imageID = R.drawable.horse;
-        horse.soundID = R.raw.horse;
+        BoardElement maraccas = new BoardElement();
+        maraccas.imageID = R.drawable.maraccas;
+        maraccas.soundID = R.raw.horse;
 
-        BoardElement sheep = new BoardElement();
-        sheep.imageID = R.drawable.sheep;
-        sheep.soundID = R.raw.sheep;
+        BoardElement guitar = new BoardElement();
+        guitar.imageID = R.drawable.guitar;
+        guitar.soundID = R.raw.sheep;
 
         mElements = new ArrayList<>();
-        mElements.add(goat);
-        mElements.add(duck);
-        mElements.add(cow);
-        mElements.add(dog);
-        mElements.add(hen);
-        mElements.add(sheep);
-        mElements.add(cat);
-        mElements.add(horse);
+        mElements.add(akkordeon);
+        mElements.add(trumpet);
+        mElements.add(maraccas);
+        mElements.add(piano);
+        mElements.add(guitar);
+        mElements.add(saxophone);
+        mElements.add(drums);
+        mElements.add(violin);
     }
 }
