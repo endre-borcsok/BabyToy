@@ -13,10 +13,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ebsoft.babytoy.Boards.Animals;
+import com.ebsoft.babytoy.Boards.Farm;
 import com.ebsoft.babytoy.Boards.Board;
 import com.ebsoft.babytoy.Boards.BoardElement;
-import com.ebsoft.babytoy.Boards.Instruments;
+import com.ebsoft.babytoy.Boards.Music;
 import com.ebsoft.babytoy.Boards.Jungle;
 import com.ebsoft.babytoy.Dialogs.ParentalDialog;
 import com.ebsoft.babytoy.MainActivity;
@@ -161,13 +161,13 @@ public class Game extends Scene {
 
     private void initBoardList() {
         mBoardList = new ArrayList<>();
-        mBoardList.add(new Animals());
-        mBoardList.add(new Instruments());
+        mBoardList.add(new Farm());
+        mBoardList.add(new Music());
         mBoardList.add(new Jungle());
     }
 
     private Board getLastBoard() {
-        mCurrentBoard = getApplicationPreferences().getString(LAST_BOARD_KEY, Animals.BOARD_ANIMALS);
+        mCurrentBoard = getApplicationPreferences().getString(LAST_BOARD_KEY, Farm.BOARD_ANIMALS);
 
         for (int i = 0;i < mBoardList.size(); i++) {
             if (mCurrentBoard.equalsIgnoreCase(mBoardList.get(i).getBoardName())) {
@@ -175,14 +175,14 @@ public class Game extends Scene {
             }
         }
 
-        if (mCurrentBoard.equalsIgnoreCase(Animals.BOARD_ANIMALS)) {
-            return new Animals();
-        } else if (mCurrentBoard.equalsIgnoreCase(Instruments.BOARD_INSTRUMENTS)) {
-            return new Instruments();
+        if (mCurrentBoard.equalsIgnoreCase(Farm.BOARD_ANIMALS)) {
+            return new Farm();
+        } else if (mCurrentBoard.equalsIgnoreCase(Music.BOARD_INSTRUMENTS)) {
+            return new Music();
         } else if (mCurrentBoard.equalsIgnoreCase(Jungle.BOARD_JUNGLE)) {
             return new Jungle();
         } else {
-            return new Animals();
+            return new Farm();
         }
     }
 

@@ -5,15 +5,15 @@ import com.ebsoft.babytoy.R;
 import java.util.ArrayList;
 
 /**
- * Created by Endre on 26/03/2017.
+ * Created by Endre on 02/04/2017.
  */
 
-public class Animals extends Board{
+public class Music extends Board{
 
-    public static final String BOARD_ANIMALS = "Animals";
+    public static final String BOARD_INSTRUMENTS = "Music";
 
-    public Animals() {
-        mBoardName = BOARD_ANIMALS;
+    public Music() {
+        mBoardName = BOARD_INSTRUMENTS;
 
         BoardElement dog = new BoardElement();
         dog.imageID = R.drawable.dog;
@@ -48,13 +48,13 @@ public class Animals extends Board{
         sheep.soundID = R.raw.sheep;
 
         mElements = new ArrayList<>();
+        mElements.add(goat);
+        mElements.add(duck);
+        mElements.add(cow);
         mElements.add(dog);
         mElements.add(hen);
         mElements.add(sheep);
         mElements.add(cat);
         mElements.add(horse);
-        mElements.add(goat);
-        mElements.add(duck);
-        mElements.add(cow);
     }
 }
