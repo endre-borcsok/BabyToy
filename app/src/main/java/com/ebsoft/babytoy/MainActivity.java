@@ -257,9 +257,7 @@ public class MainActivity extends Activity {
                 InfoDialog dialog = InfoDialog.newInstance("asd", errorMessage, null);
                 dialog.show(getFragmentManager(), TAG);
             } else if (resultCode == RESULT_CANCELED) {
-                String errorMessage = getResources().getString(R.string.dialog_error) + " " + responseCode;
-                InfoDialog dialog = InfoDialog.newInstance("asd", errorMessage, null);
-                dialog.show(getFragmentManager(), TAG);
+                //TODO Dialog box dismissed by the user. No action needed.
             }
         }
     }
