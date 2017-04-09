@@ -15,46 +15,46 @@ public class Jungle extends Board{
     public Jungle() {
         mBoardName = BOARD_JUNGLE;
 
-        BoardElement dog = new BoardElement();
-        dog.imageID = R.drawable.dog;
-        dog.soundID = R.raw.dog;
+        BoardElement lion = new BoardElement();
+        lion.imageID = R.drawable.lion;
+        lion.soundID = R.raw.dog;
 
-        BoardElement cat = new BoardElement();
-        cat.imageID = R.drawable.cat;
-        cat.soundID = R.raw.cat;
+        BoardElement monkey = new BoardElement();
+        monkey.imageID = R.drawable.monkey;
+        monkey.soundID = R.raw.cat;
 
-        BoardElement cow = new BoardElement();
-        cow.imageID = R.drawable.cow;
-        cow.soundID = R.raw.cow;
+        BoardElement zebra = new BoardElement();
+        zebra.imageID = R.drawable.zebra;
+        zebra.soundID = R.raw.cow;
 
-        BoardElement duck = new BoardElement();
-        duck.imageID = R.drawable.duck;
-        duck.soundID = R.raw.duck;
+        BoardElement snake = new BoardElement();
+        snake.imageID = R.drawable.snake;
+        snake.soundID = R.raw.duck;
 
-        BoardElement goat = new BoardElement();
-        goat.imageID = R.drawable.goat;
-        goat.soundID = R.raw.goat;
+        BoardElement parrot = new BoardElement();
+        parrot.imageID = R.drawable.parrot;
+        parrot.soundID = R.raw.goat;
 
-        BoardElement hen = new BoardElement();
-        hen.imageID = R.drawable.hen;
-        hen.soundID = R.raw.hen;
+        BoardElement frog = new BoardElement();
+        frog.imageID = R.drawable.frog;
+        frog.soundID = R.raw.hen;
 
-        BoardElement horse = new BoardElement();
-        horse.imageID = R.drawable.horse;
-        horse.soundID = R.raw.horse;
+        BoardElement elephant = new BoardElement();
+        elephant.imageID = R.drawable.elephant;
+        elephant.soundID = R.raw.horse;
 
-        BoardElement sheep = new BoardElement();
-        sheep.imageID = R.drawable.sheep;
-        sheep.soundID = R.raw.sheep;
+        BoardElement giraffe = new BoardElement();
+        giraffe.imageID = R.drawable.giraffe;
+        giraffe.soundID = R.raw.sheep;
 
         mElements = new ArrayList<>();
-        mElements.add(cat);
-        mElements.add(horse);
-        mElements.add(goat);
-        mElements.add(duck);
-        mElements.add(dog);
-        mElements.add(hen);
-        mElements.add(sheep);
-        mElements.add(cow);
+        mElements.add(lion);
+        mElements.add(monkey);
+        mElements.add(zebra);
+        mElements.add(giraffe);
+        mElements.add(frog);
+        mElements.add(parrot);
+        mElements.add(snake);
+        mElements.add(elephant);
     }
 }
