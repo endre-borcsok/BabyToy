@@ -17,35 +17,35 @@ public class Music extends Board{
 
         BoardElement akkordeon = new BoardElement();
         akkordeon.imageID = R.drawable.akkordeon;
-        akkordeon.soundID = R.raw.dog;
+        akkordeon.soundID = R.raw.akkordeon;
 
         BoardElement drums = new BoardElement();
         drums.imageID = R.drawable.drums;
-        drums.soundID = R.raw.cat;
+        drums.soundID = R.raw.drums;
 
         BoardElement piano = new BoardElement();
         piano.imageID = R.drawable.piano;
-        piano.soundID = R.raw.cow;
+        piano.soundID = R.raw.piano;
 
         BoardElement trumpet = new BoardElement();
         trumpet.imageID = R.drawable.trumpet;
-        trumpet.soundID = R.raw.duck;
+        trumpet.soundID = R.raw.trumpet;
 
         BoardElement violin = new BoardElement();
         violin.imageID = R.drawable.violin;
-        violin.soundID = R.raw.goat;
+        violin.soundID = R.raw.violin;
 
         BoardElement saxophone = new BoardElement();
         saxophone.imageID = R.drawable.saxophone;
-        saxophone.soundID = R.raw.hen;
+        saxophone.soundID = R.raw.saxophone;
 
         BoardElement maraccas = new BoardElement();
         maraccas.imageID = R.drawable.maraccas;
-        maraccas.soundID = R.raw.horse;
+        maraccas.soundID = R.raw.maraccas;
 
         BoardElement guitar = new BoardElement();
         guitar.imageID = R.drawable.guitar;
-        guitar.soundID = R.raw.sheep;
+        guitar.soundID = R.raw.guitar;
 
         mElements = new ArrayList<>();
         mElements.add(akkordeon);

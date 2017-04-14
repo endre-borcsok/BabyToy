@@ -163,7 +163,7 @@ public class Game extends Scene {
         mBoardList = new ArrayList<>();
         mBoardList.add(new Farm());
         mBoardList.add(new Music());
-        mBoardList.add(new Jungle());
+        //mBoardList.add(new Jungle());
     }
 
     private Board getLastBoard() {
