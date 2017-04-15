@@ -18,6 +18,7 @@ import com.ebsoft.babytoy.Boards.Board;
 import com.ebsoft.babytoy.Boards.BoardElement;
 import com.ebsoft.babytoy.Boards.Music;
 import com.ebsoft.babytoy.Boards.Jungle;
+import com.ebsoft.babytoy.Boards.Vehicles;
 import com.ebsoft.babytoy.Dialogs.ParentalDialog;
 import com.ebsoft.babytoy.MainActivity;
 import com.ebsoft.babytoy.R;
@@ -163,7 +164,7 @@ public class Game extends Scene {
         mBoardList = new ArrayList<>();
         mBoardList.add(new Farm());
         mBoardList.add(new Music());
-        //mBoardList.add(new Jungle());
+        mBoardList.add(new Vehicles());
     }
 
     private Board getLastBoard() {
@@ -179,8 +180,8 @@ public class Game extends Scene {
             return new Farm();
         } else if (mCurrentBoard.equalsIgnoreCase(Music.BOARD_INSTRUMENTS)) {
             return new Music();
-        } else if (mCurrentBoard.equalsIgnoreCase(Jungle.BOARD_JUNGLE)) {
-            return new Jungle();
+        } else if (mCurrentBoard.equalsIgnoreCase(Vehicles.BOARD_VEHICLES)) {
+            return new Vehicles();
         } else {
             return new Farm();
         }
