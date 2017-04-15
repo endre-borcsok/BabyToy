@@ -29,6 +29,8 @@ import static android.view.View.GONE;
 
 /**
  * Created by Endre on 25/03/2017.
+ *
+ * commit test.
  */
 
 public class Game extends Scene {
