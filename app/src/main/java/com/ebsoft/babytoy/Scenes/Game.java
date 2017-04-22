@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.ebsoft.babytoy.Boards.Farm;
 import com.ebsoft.babytoy.Boards.Board;
 import com.ebsoft.babytoy.Boards.BoardElement;
+import com.ebsoft.babytoy.Boards.Misc;
 import com.ebsoft.babytoy.Boards.Music;
 import com.ebsoft.babytoy.Boards.Jungle;
 import com.ebsoft.babytoy.Boards.Vehicles;
@@ -167,6 +168,7 @@ public class Game extends Scene {
         mBoardList.add(new Farm());
         mBoardList.add(new Music());
         mBoardList.add(new Vehicles());
+        mBoardList.add(new Misc());
     }
 
     private Board getLastBoard() {
@@ -184,6 +186,8 @@ public class Game extends Scene {
             return new Music();
         } else if (mCurrentBoard.equalsIgnoreCase(Vehicles.BOARD_VEHICLES)) {
             return new Vehicles();
+        } else if (mCurrentBoard.equalsIgnoreCase(Misc.BOARD_MISC)) {
+            return new Misc();
         } else {
             return new Farm();
         }
