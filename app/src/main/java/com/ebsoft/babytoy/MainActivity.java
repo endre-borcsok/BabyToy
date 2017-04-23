@@ -194,11 +194,11 @@ public class MainActivity extends Activity {
         if (mSharedPreferences.getBoolean(PREFERENCE_PARENTAL_MODE, false)) {
             String message = getResources().getString(R.string.dialog_press_back_button);
             InfoDialog dialog = InfoDialog.newInstance("asd", message, null);
-            dialog.addOnCompletedRunnable(new Runnable() {
+            dialog.addDismissRunnable(new Runnable() {
                 @Override
                 public void run() {
                     if (!isAllBoardsAvailable()) {
-                        String message = getResources().getString(R.string.dialog_boards_have_been_unlocked);
+                        String message = getResources().getString(R.string.dialog_ask_for_donation);
                         InfoDialog dialog = InfoDialog.newInstance("asd", message, null);
                         dialog.show(getFragmentManager(), TAG);
                     }

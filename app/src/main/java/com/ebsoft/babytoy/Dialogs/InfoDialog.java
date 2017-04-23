@@ -1,5 +1,6 @@
 package com.ebsoft.babytoy.Dialogs;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -36,6 +37,8 @@ public class InfoDialog extends Dialog {
     private ImageView mAccept;
     private String mInfo;
 
+    private Runnable mDismissRunnable;
+
     public static InfoDialog newInstance(String title, String info, Runnable onDialogCompleted) {
         InfoDialog frag = new InfoDialog();
         frag.addOnCompletedRunnable(onDialogCompleted);
@@ -44,6 +47,10 @@ public class InfoDialog extends Dialog {
         args.putString("title", title);
         frag.setArguments(args);
         return frag;
+    }
+
+    public void addDismissRunnable(Runnable runnable) {
+        this.mDismissRunnable = runnable;
     }
 
     private void setInfo(String info) {
@@ -88,5 +95,13 @@ public class InfoDialog extends Dialog {
                 return true;
             }
         });
+    }
+
+    @Override
+    public void onDismiss(DialogInterface inf) {
+        super.onDismiss(inf);
+        if (mDismissRunnable != null) {
+            mDismissRunnable.run();
+        }
     }
 }

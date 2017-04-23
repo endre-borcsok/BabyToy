@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -52,6 +53,7 @@ public class Game extends Scene {
     private String mCurrentBoard;
     private int mCurrentBoardIndex = 0;
     private ArrayList<Board> mBoardList;
+    private ArrayList<View> mViewList;
 
     private boolean mBoardInitialised = false;
 
@@ -85,6 +87,7 @@ public class Game extends Scene {
         setBackPressRunnable(mBackPressRunnable);
 
         mDecorView = mParentActivity.getWindow().getDecorView();
+
         mDecorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
                     @Override
                     public void onSystemUiVisibilityChange(int visibility) {
@@ -93,11 +96,29 @@ public class Game extends Scene {
                         }
                     }
         });
+
+        mSoundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleID, int status) {
+                if (mViewList != null && status == 0) {
+                    for (int index = 0; index < mViewList.size(); index++) {
+                        if ((int)mViewList.get(index).getTag() == sampleID) {
+                            mViewList.get(index).setAlpha(1.0f);
+                            ProgressBar pbar = (ProgressBar) mViewList.get(index).findViewById(R.id.pBar);
+                            pbar.setVisibility(GONE);
+                        }
+                    }
+                } else {
+                    Log.e(TAG, "Failed to load sample: " + status);
+                }
+            }
+        });
     }
 
     private void initBoard(Board board) {
         mBoardInitialised = false;
         saveBoard(board);
+        mViewList = new ArrayList<>();
         mBoard.requestLayout();
         mBoard.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -115,13 +136,15 @@ public class Game extends Scene {
 
                     for (int i = 0; i < BOARD_ELEMENT_COUNT; i++) {
                         View mBoardElement = mInflater.inflate(R.layout.layout_board_element, null);
-                        int soundId = mSoundPool.load(mParentActivity, boardElementList.get(i).soundID, 1);
+                        mBoardElement.setAlpha(0.2f);
+                        mViewList.add(mBoardElement);
+                        int soundID = mSoundPool.load(mParentActivity, boardElementList.get(i).soundID, 1);
+                        mBoardElement.setTag(soundID);
                         ImageView elementImage = (ImageView) mBoardElement.findViewById(R.id.elementImage);
                         RelativeLayout.LayoutParams elementParams = new RelativeLayout.LayoutParams(width, height);
                         mBoardElement.setLayoutParams(elementParams);
                         elementImage.setImageResource(boardElementList.get(i).imageID);
                         addTouchListener(mBoardElement);
-                        mBoardElement.setTag(soundId);
                         mBoard.addView(mBoardElement, i);
                     }
 

@@ -19,6 +19,7 @@ import com.ebsoft.babytoy.Purchases;
 import com.ebsoft.babytoy.R;
 
 import static android.content.ContentValues.TAG;
+import static com.ebsoft.babytoy.MainActivity.PREFERENCE_PARENTAL_MODE;
 
 /**
  * Created by Endre on 25/03/2017.
@@ -71,9 +72,23 @@ public class Menu extends Scene {
                     vibrate();
                     break;
                 case MotionEvent.ACTION_UP:
-                    getApplicationPreferences().edit().putBoolean(MainActivity.PREFERENCE_PARENTAL_MODE, true).commit();
+                    getApplicationPreferences().edit().putBoolean(PREFERENCE_PARENTAL_MODE, true).commit();
                     loadScene(new Game(mParentActivity));
-                    Toast.makeText(mParentActivity, "Screen lock activated! Press the \"Back\" button to disable locked screen mode!", Toast.LENGTH_LONG).show();
+                    if (getApplicationPreferences().getBoolean(PREFERENCE_PARENTAL_MODE, false)) {
+                        String message =mParentActivity. getResources().getString(R.string.dialog_press_back_button);
+                        InfoDialog dialog = InfoDialog.newInstance("asd", message, null);
+                        dialog.addDismissRunnable(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (!mParentActivity.isAllBoardsAvailable()) {
+                                    String message = mParentActivity.getResources().getString(R.string.dialog_ask_for_donation);
+                                    InfoDialog dialog = InfoDialog.newInstance("asd", message, null);
+                                    dialog.show(mParentActivity.getFragmentManager(), TAG);
+                                }
+                            }
+                        });
+                        dialog.show(mParentActivity.getFragmentManager(), TAG);
+                    }
                 case MotionEvent.ACTION_CANCEL:
                     mMenuTextPlay.setTextColor(Color.WHITE);
                     break;
