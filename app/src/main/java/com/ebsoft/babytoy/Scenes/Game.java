@@ -235,7 +235,7 @@ public class Game extends Scene {
     }
 
     private void getPreviousBoard() {
-        if (mCurrentBoardIndex >= 0) {
+        if (mCurrentBoardIndex > 0) {
             --mCurrentBoardIndex;
             initBoard(mBoardList.get(mCurrentBoardIndex));
         }
