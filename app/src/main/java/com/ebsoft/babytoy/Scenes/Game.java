@@ -74,7 +74,6 @@ public class Game extends Scene {
         mCategory = (TextView) findViewById(R.id.textCategory);
         mPrevious = (TextView) findViewById(R.id.textPrevious);
         mNext = (TextView) findViewById(R.id.textNext);
-        mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 
         mCategory.setTypeface(getTypeface());
         mPrevious.setTypeface(getTypeface());
@@ -97,6 +96,24 @@ public class Game extends Scene {
                     }
         });
 
+    }
+
+    private void initBoard(Board board) {
+        mBoardInitialised = false;
+        saveBoard(board);
+        mViewList = new ArrayList<>();
+        mBoard.requestLayout();
+
+        if (mViewList != null && mSoundPool != null) {
+            for (int i = 0; i < mViewList.size(); i++) {
+                int id = (int) mViewList.get(i).getTag();
+                mSoundPool.unload(id);
+            }
+            mSoundPool.release();
+            mSoundPool = null;
+        }
+
+        mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
         mSoundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
             @Override
             public void onLoadComplete(SoundPool soundPool, int sampleID, int status) {
@@ -113,20 +130,6 @@ public class Game extends Scene {
                 }
             }
         });
-    }
-
-    private void initBoard(Board board) {
-        mBoardInitialised = false;
-        saveBoard(board);
-        mViewList = new ArrayList<>();
-        mBoard.requestLayout();
-
-        if (mViewList != null) {
-            for (int i = 0; i < mViewList.size(); i++) {
-                int id = (int) mViewList.get(i).getTag();
-                mSoundPool.unload(id);
-            }
-        }
 
         mBoard.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
