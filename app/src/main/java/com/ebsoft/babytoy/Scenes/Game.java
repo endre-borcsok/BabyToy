@@ -120,6 +120,14 @@ public class Game extends Scene {
         saveBoard(board);
         mViewList = new ArrayList<>();
         mBoard.requestLayout();
+
+        if (mViewList != null) {
+            for (int i = 0; i < mViewList.size(); i++) {
+                int id = (int) mViewList.get(i).getTag();
+                mSoundPool.unload(id);
+            }
+        }
+
         mBoard.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
