@@ -11,5 +11,5 @@
     <string name="dialog_boards_have_been_unlocked">You have donated. Thank you!</string>
     <string name="dialog_thanks_for_purchase">Thank you!</string>
     <string name="dialog_press_back_button">Press the "Back" button to disable locked screen mode!</string>
-    <string name="dialog_ask_for_donation">If you like the app, please have look at the Donation button in the Menu</string>
+    <string name="dialog_ask_for_donation">If you like the app, please have a look at the Donation button in the Menu</string>
 </resources>
