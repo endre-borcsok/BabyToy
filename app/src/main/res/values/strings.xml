@@ -1,13 +1,15 @@
 <resources>
     <string name="app_name">Baby Toy</string>
     <string name="menu_button_play_text">Play</string>
-    <string name="menu_button_more_boards_text">More Boards</string>
+    <string name="menu_button_more_boards_text">Donation</string>
     <string name="menu_button_options_text">Options</string>
 
-    <string name="layout_purchase_dialog_purchase">Purchase more boards for:</string>
+    <string name="layout_purchase_dialog_purchase">If you like the application please support us:</string>
     <string name="layout_purchase_dialog_price_loading">Loading price...</string>
 
     <string name="dialog_error">Error:</string>
-    <string name="dialog_boards_have_been_unlocked">You have unlocked all boards.</string>
-    <string name="dialog_thanks_for_purchase">Thank you for your purchase!</string>
+    <string name="dialog_boards_have_been_unlocked">You have donated. Thank you!</string>
+    <string name="dialog_thanks_for_purchase">Thank you!</string>
+    <string name="dialog_press_back_button">Press the "Back" button to disable locked screen mode!</string>
+    <string name="dialog_ask_for_donation">If you like the app, please have look at the Donation button in the Menu</string>
 </resources>

@@ -23,7 +23,7 @@
                 android:textColor="#FFFFFF"
                 android:textSize="@dimen/menu_button_text_size"
                 android:gravity="center"
-                android:text="Are you a parent?"/>
+                android:text="Please confirm to continue"/>
 
             <TextView
                 android:id="@+id/textMaths"

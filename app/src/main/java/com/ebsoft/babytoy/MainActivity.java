@@ -192,7 +192,19 @@ public class MainActivity extends Activity {
         super.onResume();
         checkForCrashes();
         if (mSharedPreferences.getBoolean(PREFERENCE_PARENTAL_MODE, false)) {
-            Toast.makeText(this, "Press the \"Back\" button to disable locked screen mode!", Toast.LENGTH_LONG).show();
+            String message = getResources().getString(R.string.dialog_press_back_button);
+            InfoDialog dialog = InfoDialog.newInstance("asd", message, null);
+            dialog.addOnCompletedRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    if (!isAllBoardsAvailable()) {
+                        String message = getResources().getString(R.string.dialog_boards_have_been_unlocked);
+                        InfoDialog dialog = InfoDialog.newInstance("asd", message, null);
+                        dialog.show(getFragmentManager(), TAG);
+                    }
+                }
+            });
+            dialog.show(getFragmentManager(), TAG);
         }
     }
 

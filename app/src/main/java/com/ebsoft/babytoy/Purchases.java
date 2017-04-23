@@ -56,6 +56,19 @@ public class Purchases {
         return mService.getSkuDetails(3, activity.getPackageName(), "inapp", mQuerySkus);
     }
 
+    public void consumePurchase(String purchaseToken) throws RemoteException {
+        /*
+        Warning: Don't call the getSkuDetails method on the main thread.
+        Calling this method triggers a network request that could block your main thread.
+        Instead, create a separate thread and call
+        the getSkuDetails method from inside of that thread.
+         */
+        int response = mService.consumePurchase(3, BabyToyApplication.getAppContext().getPackageName(), purchaseToken);
+        if (response != 0) {
+            Log.e(TAG, Integer.toString(response));
+        }
+    }
+
     /**
      * Warning: Don't call this method on the main thread.
      * Calling this method triggers a network request that could block your main thread.

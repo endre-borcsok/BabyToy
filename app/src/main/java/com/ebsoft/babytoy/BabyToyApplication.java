@@ -2,6 +2,7 @@ package com.ebsoft.babytoy;
 
 import android.app.AlarmManager;
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 
 import static java.security.AccessController.getContext;
@@ -26,5 +27,10 @@ public class BabyToyApplication extends Application {
     public BabyToyApplication() {
         // setup handler for uncaught exception
         Thread.setDefaultUncaughtExceptionHandler(mUnCaughtExceptionHandler);
+    }
+
+    public static Context getAppContext() {
+        return getAppContext();
+
     }
 }
