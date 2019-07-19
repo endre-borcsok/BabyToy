@@ -22,8 +22,12 @@ import com.ebsoft.toy.Scenes.Game;
 import com.ebsoft.toy.Scenes.Menu;
 import com.ebsoft.toy.Scenes.Scene;
 import com.ebsoft.toy.Scenes.SplashScreen;
-
-import net.hockeyapp.android.CrashManager;
+import com.microsoft.appcenter.AppCenter;
+import com.microsoft.appcenter.analytics.Analytics;
+import com.microsoft.appcenter.crashes.Crashes;
+import com.microsoft.appcenter.crashes.CrashesListener;
+import com.microsoft.appcenter.crashes.ingestion.models.ErrorAttachmentLog;
+import com.microsoft.appcenter.crashes.model.ErrorReport;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -78,6 +82,7 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        checkForCrashes();
 
         Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
         serviceIntent.setPackage("com.android.vending");
@@ -187,7 +192,6 @@ public class MainActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-        checkForCrashes();
         if (mSharedPreferences.getBoolean(PREFERENCE_PARENTAL_MODE, false)) {
             String message = getResources().getString(R.string.dialog_press_back_button);
             InfoDialog dialog = InfoDialog.newInstance("asd", message, null);
@@ -230,7 +234,39 @@ public class MainActivity extends Activity {
     }
 
     private void checkForCrashes() {
-        //CrashManager.register(this);
+        CrashesListener listener = new CrashesListener() {
+            @Override
+            public boolean shouldProcess(ErrorReport report) {
+                return true;
+            }
+
+            @Override
+            public boolean shouldAwaitUserConfirmation() {
+                return false;
+            }
+
+            @Override
+            public Iterable<ErrorAttachmentLog> getErrorAttachments(ErrorReport report) {
+                return null;
+            }
+
+            @Override
+            public void onBeforeSending(ErrorReport report) {
+
+            }
+
+            @Override
+            public void onSendingFailed(ErrorReport report, Exception e) {
+
+            }
+
+            @Override
+            public void onSendingSucceeded(ErrorReport report) {
+
+            }
+        };
+        Crashes.setListener(listener);
+        AppCenter.start(getApplication(), "db29ce32-b78a-4212-9ba1-4cea9cbecd9b", Analytics.class, Crashes.class);
     }
 
     @Override
