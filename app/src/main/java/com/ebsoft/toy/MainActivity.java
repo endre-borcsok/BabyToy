@@ -22,6 +22,7 @@ import com.ebsoft.toy.Scenes.Game;
 import com.ebsoft.toy.Scenes.Menu;
 import com.ebsoft.toy.Scenes.Scene;
 import com.ebsoft.toy.Scenes.SplashScreen;
+import com.ebsoft.toy.util.GooglePlayBilling;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
@@ -37,7 +38,7 @@ import java.io.IOException;
  * Created by Endre on 25/03/2017.
  */
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements GooglePlayBilling.GooglePlayBillingListener {
 
     public static final String TAG = MainActivity.class.getSimpleName();
     public static final String PREFERENCE_PARENTAL_MODE = "ParentalMode";
@@ -47,47 +48,16 @@ public class MainActivity extends Activity {
     private SharedPreferences mSharedPreferences = null;
     private Runnable mBackPressRunnable = null;
     private Vibrator mVibrator;
-    private Purchases mPurchases;
+    private GooglePlayBilling mGooglePlayBilling;
 
     private boolean mAllBoardsAvailable = false;
-
-    IInAppBillingService mService;
-
-    ServiceConnection mServiceConn = new ServiceConnection() {
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            mService = null;
-        }
-
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            mService = IInAppBillingService.Stub.asInterface(service);
-            mPurchases = new Purchases(mService);
-
-            try {
-                mAllBoardsAvailable = mPurchases.hasProductPurchased(MainActivity.this, Purchases.SKU_ALL_BOARDS, new Purchases.OnPurchaseEventListener() {
-                    @Override
-                    public void onError(String error) {
-                        String errorMessage = getResources().getString(R.string.dialog_error) + " " + error;
-                        InfoDialog dialog = InfoDialog.newInstance("asd", errorMessage, null);
-                        dialog.show(getFragmentManager(), TAG);
-                    }
-                });
-            } catch (RemoteException e) {
-                Log.e(TAG, e.toString());
-            }
-        }
-    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         checkForCrashes();
 
-        Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
-        serviceIntent.setPackage("com.android.vending");
-        bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
-
+        mGooglePlayBilling = new GooglePlayBilling(this);
         mSavedLastScenePath = getFilesDir().getAbsolutePath() + "/lastScene.obj";
         mTypeFace = Typeface.createFromAsset(getAssets(),"fonts/Chewy.ttf");
         mSharedPreferences = getSharedPreferences(TAG, MODE_PRIVATE);
@@ -177,8 +147,8 @@ public class MainActivity extends Activity {
         return mAllBoardsAvailable;
     }
 
-    public IInAppBillingService getBillingService() {
-        return mService;
+    public GooglePlayBilling getBillingService() {
+        return mGooglePlayBilling;
     }
 
     public Typeface getTypeface() {
@@ -286,25 +256,26 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mService != null) {
-            unbindService(mServiceConn);
-        }
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1001) {
-            int responseCode = data.getIntExtra("RESPONSE_CODE", 0);
             if (resultCode == RESULT_OK) {
                 String errorMessage = getResources().getString(R.string.dialog_thanks_for_purchase);
                 InfoDialog dialog = InfoDialog.newInstance("asd", errorMessage, null);
                 dialog.show(getFragmentManager(), TAG);
-            } else if (resultCode == RESULT_CANCELED) {
-                //TODO Dialog box dismissed by the user. No action needed.
             }
         }
+    }
+
+    @Override
+    public void onGooglePlayBillingReady() {
+        mAllBoardsAvailable = mGooglePlayBilling.hasProductBeenPurchased(GooglePlayBilling.SKU_ALL_BOARDS);
+    }
+
+    @Override
+    public void onError(String debugMessage) {
+        String errorMessage = getResources().getString(R.string.dialog_error) + " " + debugMessage;
+        InfoDialog dialog = InfoDialog.newInstance("asd", errorMessage, null);
+        dialog.show(getFragmentManager(), TAG);
     }
 }
 

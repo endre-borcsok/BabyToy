@@ -1,9 +1,6 @@
 package com.ebsoft.toy.Scenes;
 
-import android.content.IntentSender;
 import android.graphics.Color;
-import android.os.RemoteException;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -14,8 +11,8 @@ import com.ebsoft.toy.Dialogs.ParentalDialog;
 import com.ebsoft.toy.Dialogs.PurchaseDialog;
 import com.ebsoft.toy.Dialogs.SettingsDialog;
 import com.ebsoft.toy.MainActivity;
-import com.ebsoft.toy.Purchases;
 import com.ebsoft.toy.R;
+import com.ebsoft.toy.util.GooglePlayBilling;
 
 import static com.ebsoft.toy.MainActivity.PREFERENCE_PARENTAL_MODE;
 
@@ -145,21 +142,7 @@ public class Menu extends Scene {
             Runnable purchaseRunnable = new Runnable() {
                 @Override
                 public void run() {
-                    try {
-                        Purchases purchase = new Purchases(mParentActivity.getBillingService());
-                        purchase.purchase(mParentActivity, Purchases.SKU_ALL_BOARDS, new Purchases.OnPurchaseEventListener() {
-                            @Override
-                            public void onError(String error) {
-                                String errorMessage = mParentActivity.getResources().getString(R.string.dialog_error) + " " + error;
-                                InfoDialog dialog = InfoDialog.newInstance("asd", errorMessage, null);
-                                dialog.show(mParentActivity.getFragmentManager(), TAG);
-                            }
-                        });
-                    } catch (RemoteException e) {
-                        Log.e(TAG, e.toString());
-                    } catch (IntentSender.SendIntentException e) {
-                        Log.e(TAG, e.toString());
-                    }
+                    mParentActivity.getBillingService().purchase(GooglePlayBilling.SKU_ALL_BOARDS);
                 }
             };
             PurchaseDialog dialog = PurchaseDialog.newInstance("asd", purchaseRunnable, mParentActivity.getBillingService());
