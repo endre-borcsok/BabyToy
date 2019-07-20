@@ -14,10 +14,12 @@ public class BabyToyApplication extends Application {
             new Thread.UncaughtExceptionHandler() {
                 @Override
                 public void uncaughtException(Thread thread, Throwable ex) {
-                    Intent intent = new Intent(BabyToyApplication.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    System.exit(2);
+                    if (getSharedPreferences(MainActivity.PREFERENCE_KEY, MODE_PRIVATE).getBoolean(MainActivity.PREFERENCE_PARENTAL_MODE, false)) {
+                        Intent intent = new Intent(BabyToyApplication.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        System.exit(2);
+                    }
                 }
             };
 

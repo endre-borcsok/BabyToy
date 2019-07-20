@@ -41,7 +41,11 @@ import java.io.IOException;
 public class MainActivity extends Activity implements GooglePlayBilling.GooglePlayBillingListener {
 
     public static final String TAG = MainActivity.class.getSimpleName();
+    public static final String PREFERENCE_KEY = "PrefKey";
     public static final String PREFERENCE_PARENTAL_MODE = "ParentalMode";
+    public static final String PREFERENCE_LAST_START_MS = "LastStartMs";
+    public static final String PREFERENCE_RESTART_COUNT = "RestartCount";
+    private static final long RESTART_DELAY_TOLERANCE_MS = 1000;
 
     private String mSavedLastScenePath = null;
     private Typeface mTypeFace = null;
@@ -55,12 +59,13 @@ public class MainActivity extends Activity implements GooglePlayBilling.GooglePl
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        checkForCrashes();
 
+        mSharedPreferences = getSharedPreferences(PREFERENCE_KEY, MODE_PRIVATE);
         mGooglePlayBilling = new GooglePlayBilling(this);
         mSavedLastScenePath = getFilesDir().getAbsolutePath() + "/lastScene.obj";
         mTypeFace = Typeface.createFromAsset(getAssets(),"fonts/Chewy.ttf");
-        mSharedPreferences = getSharedPreferences(TAG, MODE_PRIVATE);
+
+        checkForCrashes();
 
         //Return to the previous scene.
         int savedSceneID = getLastScene();
@@ -70,6 +75,11 @@ public class MainActivity extends Activity implements GooglePlayBilling.GooglePl
         } else {
             Log.d(TAG, "Found previous screen. Loading saved screen.");
             loadScene(getSceneByID(savedSceneID));
+        }
+
+        if (isRestartingToOften()) {
+            Log.e(TAG, "Activated crash loop protection");
+            mSharedPreferences.edit().putBoolean(MainActivity.PREFERENCE_PARENTAL_MODE, false).commit();
         }
     }
 
@@ -204,6 +214,15 @@ public class MainActivity extends Activity implements GooglePlayBilling.GooglePl
     }
 
     private void checkForCrashes() {
+        if (mSharedPreferences.getLong(PREFERENCE_LAST_START_MS, 0L) >= System.currentTimeMillis() - RESTART_DELAY_TOLERANCE_MS) {
+            int currentRestartCount = mSharedPreferences.getInt(PREFERENCE_RESTART_COUNT, 0);
+            mSharedPreferences.edit().putInt(PREFERENCE_RESTART_COUNT, currentRestartCount+1).commit();
+        } else {
+            mSharedPreferences.edit().putInt(PREFERENCE_RESTART_COUNT, 0).commit();
+        }
+
+        mSharedPreferences.edit().putLong(PREFERENCE_LAST_START_MS, System.currentTimeMillis()).commit();
+
         CrashesListener listener = new CrashesListener() {
             @Override
             public boolean shouldProcess(ErrorReport report) {
@@ -237,6 +256,10 @@ public class MainActivity extends Activity implements GooglePlayBilling.GooglePl
         };
         Crashes.setListener(listener);
         AppCenter.start(getApplication(), "db29ce32-b78a-4212-9ba1-4cea9cbecd9b", Analytics.class, Crashes.class);
+    }
+
+    private boolean isRestartingToOften() {
+        return mSharedPreferences.getInt(PREFERENCE_RESTART_COUNT, 0) > 3;
     }
 
     @Override
