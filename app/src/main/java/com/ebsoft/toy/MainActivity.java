@@ -45,7 +45,7 @@ public class MainActivity extends Activity implements GooglePlayBilling.GooglePl
     public static final String PREFERENCE_PARENTAL_MODE = "ParentalMode";
     public static final String PREFERENCE_LAST_START_MS = "LastStartMs";
     public static final String PREFERENCE_RESTART_COUNT = "RestartCount";
-    private static final long RESTART_DELAY_TOLERANCE_MS = 1000;
+    private static final long RESTART_DELAY_TOLERANCE_MS = 300;
 
     private String mSavedLastScenePath = null;
     private Typeface mTypeFace = null;
